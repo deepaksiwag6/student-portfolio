@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CUConnect - Chandigarh University Helper</title>
@@ -16,7 +17,7 @@
     <a href="#faq">FAQs</a>
     <a href="#clubs">Clubs</a>
     <a href="#resources">Resources</a>
-    <a href="#lost">Lost & Found</a>
+    <a href="#lost-found">Lost & Found</a>
     <a href="#feedback">Feedback</a>
   </nav>
 
@@ -25,17 +26,15 @@
     <ul>
       <li>Q: How to access CU LMS? <br> A: <a href="https://lms.cuchd.in" target="_blank">Click here</a></li>
       <li>Q: How to apply for leave? <br> A: Through the ERP portal.</li>
-      <!-- Add more -->
     </ul>
   </section>
 
-  <section id="clubs">
+  <section id="clubs" data-aos="fade-up">
     <h2>Active Clubs</h2>
     <ul>
       <li>GDSC – Google Developer Student Club</li>
       <li>ACM Chapter</li>
       <li>CU Cultural Society</li>
-      <!-- Add more -->
     </ul>
   </section>
 
@@ -47,23 +46,102 @@
     </ul>
   </section>
 
-  <section id="lost">
+  <section id="lost-found">
     <h2>Lost & Found</h2>
-    <p><em>(Coming soon with Firebase support)</em></p>
+
+    <form id="lostForm">
+      <input type="text" id="name" placeholder="Your Name" required>
+      <input type="text" id="item" placeholder="Lost Item" required>
+      <input type="text" id="contact" placeholder="Contact Info" required>
+      <input type="date" id="date" required>
+      <button type="submit">Submit</button>
+    </form>
+
+    <h3>Reported Lost Items</h3>
+    <ul id="lostItemsList"></ul>
   </section>
 
   <section id="feedback">
     <h2>Anonymous Feedback</h2>
-    <form>
+    <form onsubmit="submitFeedback(); return false;">
       <textarea placeholder="Enter suggestion or feedback..."></textarea>
       <button type="submit">Submit</button>
     </form>
   </section>
 
   <footer>
-    <p>Made with ❤️ by [Deepak Siwag] – CSE Core, Chandigarh University</p>
+    <p>Made with ❤️ by Deepak Siwag – CSE Core, Chandigarh University</p>
   </footer>
 
-  <script src="script.js"></script>
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBLbFv39Xu5YHXf3bUmPJemBKsF71R33o4",
+      authDomain: "student-portfolio-8bfc9.firebaseapp.com",
+      projectId: "student-portfolio-8bfc9",
+      storageBucket: "student-portfolio-8bfc9.appspot.com",
+      messagingSenderId: "545594631981",
+      appId: "1:545594631981:web:0774d711b74651ceeb95a4",
+      measurementId: "G-5H279MXZ24"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const form = document.getElementById('lostForm');
+    const list = document.getElementById('lostItemsList');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value;
+      const item = document.getElementById('item').value;
+      const contact = document.getElementById('contact').value;
+      const date = document.getElementById('date').value;
+
+      await addDoc(collection(db, "lost_items"), {
+        name,
+        item,
+        contact,
+        date
+      });
+
+      alert("Lost item submitted!");
+      form.reset();
+      loadLostItems();
+    });
+
+    async function loadLostItems() {
+      list.innerHTML = "";
+      const querySnapshot = await getDocs(collection(db, "lost_items"));
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        const li = document.createElement('li');
+        li.textContent = `${data.item} (by ${data.name} on ${data.date}) – Contact: ${data.contact}`;
+        list.appendChild(li);
+      });
+    }
+
+    loadLostItems();
+  </script>
+
+  <script>
+    function submitFeedback() {
+      const feedback = document.querySelector("textarea").value;
+      if (feedback.trim() === "") {
+        alert("Please write something before submitting.");
+      } else {
+        alert("Thanks for your feedback! (Feature coming soon)");
+        document.querySelector("textarea").value = "";
+      }
+    }
+  </script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init();
+</script>
 </body>
 </html>

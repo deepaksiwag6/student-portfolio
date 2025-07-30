@@ -6,7 +6,9 @@
 
 body {
   font-family: 'Poppins', sans-serif;
-  background: #f5f5f5;
+  margin: 0;
+  padding: 0;
+  background: #fdfdfd;
   color: #333;
   line-height: 1.6;
 }
@@ -14,95 +16,72 @@ body {
 header {
   background-color: #800000;
   color: white;
-  padding: 40px 20px;
+  padding: 30px 20px;
   text-align: center;
 }
 
 nav {
-  background: #fff;
-  padding: 10px 20px;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  gap: 20px;
-  border-bottom: 1px solid #ddd;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+  background: #eee;
+  padding: 10px 0;
 }
 
 nav a {
+  margin: 0 15px;
   color: #800000;
-  font-weight: 600;
   text-decoration: none;
-  padding: 8px 12px;
-}
-
-nav a:hover {
-  background: #f3f3f3;
-  border-radius: 6px;
-}
-
-main {
-  max-width: 900px;
-  margin: auto;
-  padding: 20px;
+  font-weight: bold;
 }
 
 section {
+  padding: 20px;
+  margin: 15px;
   background: white;
-  padding: 30px;
-  margin-top: 20px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-ul {
-  list-style: none;
-  padding-left: 0;
-}
-
-a {
-  color: #800000;
-  text-decoration: underline;
-}
-
-textarea {
+form input, form textarea, form button {
   width: 100%;
-  height: 100px;
-  padding: 12px;
-  font-family: inherit;
+  padding: 10px;
+  margin: 8px 0;
+  font-size: 1em;
+  border-radius: 5px;
   border: 1px solid #ccc;
-  border-radius: 8px;
-  resize: vertical;
+  box-sizing: border-box;
 }
 
-button {
+form button {
   background-color: #800000;
   color: white;
   border: none;
-  padding: 10px 16px;
-  margin-top: 10px;
-  border-radius: 8px;
   cursor: pointer;
 }
 
-button:hover {
-  background-color: #a00000;
+form button:hover {
+  background-color: #a52a2a;
 }
 
 footer {
-  background: #800000;
-  color: white;
   text-align: center;
   padding: 20px;
-  margin-top: 40px;
+  background: #800000;
+  color: white;
+  margin-top: 30px;
 }
 
-@media screen and (max-width: 600px) {
+/* Mobile Responsive */
+@media (max-width: 600px) {
   nav {
     flex-direction: column;
-    align-items: center;
   }
 
-  section {
-    padding: 20px;
+  nav a {
+    margin: 10px 0;
+  }
+}
